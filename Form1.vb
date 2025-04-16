@@ -11,15 +11,19 @@
     Dim tempsAffichageEnSeconde As Integer = 0
     Dim pause As Boolean = False
     Dim consoMoyenne100km As Single = 0.0F
+    Private vitessePrecedente As Single = 0
+    Dim pourcentageJaune As Single = 30
+    Dim pourcentageRouge As Single = 10
 
-    Public Sub CalculerDistanceMRUA(vitesseInitialeKmH As Single, accelerationKmHs As Single, tempsSecondes As Integer)
+
+    Public Function CalculerDistanceMRUA(vitesseInitialeKmH As Single, accelerationKmHs As Single, tempsSecondes As Integer, x0km As Single) As Single
         Dim v0 As Single = vitesseInitialeKmH * (1000.0F / 3600.0F) ' m/s
         Dim a As Single = accelerationKmHs * (1000.0F / 3600.0F)    ' m/s²
         Dim t As Single = tempsSecondes
 
         Dim distanceMetres As Single = (0.5F * a * t * t) + (v0 * t)
-        Me.distanceParcourueKm += distanceMetres / 1000.0F
-    End Sub
+        Return x0km + distanceMetres / 1000.0F
+    End Function
 
     Private Sub afficherInfoVoiture(voiture As Voiture)
         Dim infos As String = ""
@@ -53,8 +57,17 @@
         Dim pourcentage As Single = carburantActuel / carburantMax
         Dim hauteurCarburant As Integer = CInt(height * pourcentage)
 
-        ' Dessine le niveau de carburant en vert
-        g.FillRectangle(Brushes.Green, x + 1, y + height - hauteurCarburant + 1, width - 1, hauteurCarburant - 1)
+        ' Choisir la couleur selon le niveau de 
+        Dim couleurCarburant As Brush
+        If pourcentage <= (pourcentageRouge / 100) Then
+            couleurCarburant = Brushes.Red
+        ElseIf pourcentage <= (pourcentageJaune / 100) Then
+            couleurCarburant = Brushes.Yellow
+        Else
+            ' Dessine le niveau de carburant en vert
+            couleurCarburant = Brushes.Green
+        End If
+        g.FillRectangle(couleurCarburant, x + 1, y + height - hauteurCarburant + 1, width - 1, hauteurCarburant - 1)
 
         ' Ajoute le texte
         Dim txt As String = Math.Round(carburantActuel, 2) & " L / " & carburantMax & " L"
@@ -133,6 +146,7 @@
         afficherInfoVoiture(voitureSelectionnee)
         dessinerDashboard(vitesseActuel)
         dessinerCarburant(voitureSelectionnee.CapaciteReservoir, voitureSelectionnee.CapaciteReservoir)
+        Me.vitessePrecedente = Me.vitesseActuel
     End Sub
 
     Private Sub validerChoixVoiture(sender As Object, e As EventArgs) Handles Button1.Click
@@ -147,7 +161,7 @@
 
     Private Sub Form1_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
         If Not appuiTouche Then
-            If e.KeyCode = Keys.Space OrElse (e.KeyCode >= Keys.D1 AndAlso e.KeyCode <= Keys.D9) Then
+            If e.KeyCode = Keys.Space OrElse (e.KeyCode >= Keys.D1 AndAlso e.KeyCode <= Keys.D9) AndAlso resteCarburant > 0 Then
                 appuiTouche = True
                 enTrainDeFreiner = False ' ← Accélération
                 Timer1.Start()
@@ -201,7 +215,7 @@
             If enTrainDeFreiner Then
                 vitesseActuel -= selectedCar.Deceleration * facteurAcceleration
                 If vitesseActuel < 0 Then vitesseActuel = 0
-            Else
+            ElseIf resteCarburant > 0 Then
                 vitesseActuel += selectedCar.Acceleration * facteurAcceleration
                 If vitesseActuel > selectedCar.VitesseMax Then
                     vitesseActuel = selectedCar.VitesseMax
@@ -219,7 +233,12 @@
         If vitesseActuel > 0 AndAlso Not pause Then
             Dim typeForce As Single = If(enTrainDeFreiner, -selectedCar.Deceleration, selectedCar.Acceleration)
             Me.tempsAffichageEnSeconde += 1
-            CalculerDistanceMRUA(vitesseActuel, typeForce * facteurAcceleration, 1) ' 1 seconde par tick
+
+            ' Appel correct avec vitesse précédente
+            Me.distanceParcourueKm = CalculerDistanceMRUA(vitessePrecedente, typeForce * facteurAcceleration, 1, Me.distanceParcourueKm)
+
+            ' Met à jour la vitesse précédente
+            vitessePrecedente = vitesseActuel
         End If
 
         ' Affiche la distance avec 2 chiffres après la virgule
@@ -243,5 +262,10 @@
             Button2.Text = "Pause"
             Button2.BackColor = Color.LimeGreen
         End If
+    End Sub
+
+    Private Sub validerPourcentage_Click(sender As Object, e As EventArgs) Handles validerPourcentage.Click
+        pourcentageJaune = CInt(jaune.Value)
+        pourcentageRouge = CInt(rouge.Value)
     End Sub
 End Class

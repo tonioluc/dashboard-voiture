@@ -36,8 +36,15 @@ Partial Class Form1
         Timer2 = New Timer(components)
         consoMoyenne = New Label()
         Button2 = New Button()
+        Label3 = New Label()
+        Label4 = New Label()
+        jaune = New NumericUpDown()
+        rouge = New NumericUpDown()
+        validerPourcentage = New Button()
         CType(dashboard, ComponentModel.ISupportInitialize).BeginInit()
         CType(drawCarburant, ComponentModel.ISupportInitialize).BeginInit()
+        CType(jaune, ComponentModel.ISupportInitialize).BeginInit()
+        CType(rouge, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
         ' 
         ' Label1
@@ -148,12 +155,61 @@ Partial Class Form1
         Button2.Text = "Pause"
         Button2.UseVisualStyleBackColor = False
         ' 
+        ' Label3
+        ' 
+        Label3.AutoSize = True
+        Label3.Location = New Point(785, 241)
+        Label3.Name = "Label3"
+        Label3.Size = New Size(138, 21)
+        Label3.TabIndex = 11
+        Label3.Text = "Pourcentage jaune"
+        ' 
+        ' Label4
+        ' 
+        Label4.AutoSize = True
+        Label4.Location = New Point(785, 304)
+        Label4.Name = "Label4"
+        Label4.Size = New Size(141, 21)
+        Label4.TabIndex = 12
+        Label4.Text = "Pourcentage rouge"
+        ' 
+        ' jaune
+        ' 
+        jaune.Location = New Point(952, 241)
+        jaune.Name = "jaune"
+        jaune.Size = New Size(156, 29)
+        jaune.TabIndex = 13
+        jaune.Value = New Decimal(New Integer() {30, 0, 0, 0})
+        ' 
+        ' rouge
+        ' 
+        rouge.Location = New Point(952, 304)
+        rouge.Name = "rouge"
+        rouge.Size = New Size(156, 29)
+        rouge.TabIndex = 14
+        rouge.Value = New Decimal(New Integer() {10, 0, 0, 0})
+        ' 
+        ' validerPourcentage
+        ' 
+        validerPourcentage.BackColor = SystemColors.ActiveCaption
+        validerPourcentage.Location = New Point(991, 364)
+        validerPourcentage.Name = "validerPourcentage"
+        validerPourcentage.Size = New Size(117, 45)
+        validerPourcentage.TabIndex = 15
+        validerPourcentage.Text = "Valider"
+        validerPourcentage.UseVisualStyleBackColor = False
+        ' 
         ' Form1
         ' 
         AutoScaleDimensions = New SizeF(9.0F, 21.0F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = SystemColors.ButtonFace
         ClientSize = New Size(1157, 553)
+        Controls.Add(validerPourcentage)
+        Controls.Add(rouge)
+        Controls.Add(jaune)
+        Controls.Add(Label4)
+        Controls.Add(Label3)
         Controls.Add(Button2)
         Controls.Add(consoMoyenne)
         Controls.Add(distance_parcourue)
@@ -170,6 +226,8 @@ Partial Class Form1
         Text = "Form1"
         CType(dashboard, ComponentModel.ISupportInitialize).EndInit()
         CType(drawCarburant, ComponentModel.ISupportInitialize).EndInit()
+        CType(jaune, ComponentModel.ISupportInitialize).EndInit()
+        CType(rouge, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
         PerformLayout()
     End Sub
@@ -187,5 +245,10 @@ Partial Class Form1
     Friend WithEvents Timer2 As Timer
     Friend WithEvents consoMoyenne As Label
     Friend WithEvents Button2 As Button
+    Friend WithEvents Label3 As Label
+    Friend WithEvents Label4 As Label
+    Friend WithEvents jaune As NumericUpDown
+    Friend WithEvents rouge As NumericUpDown
+    Friend WithEvents validerPourcentage As Button
 
 End Class
