@@ -12,8 +12,8 @@
     Dim pause As Boolean = False
     Dim consoMoyenne100km As Single = 0.0F
     Private vitessePrecedente As Single = 0
-    Dim pourcentageJaune As Single = 30
-    Dim pourcentageRouge As Single = 10
+    Dim pourcentageJaune As Single = 50
+    Dim pourcentageRouge As Single = 25
 
 
     Public Function CalculerDistanceMRUA(vitesseInitialeKmH As Single, accelerationKmHs As Single, tempsSecondes As Integer, x0km As Single) As Single

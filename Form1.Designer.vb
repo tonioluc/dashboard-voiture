@@ -98,7 +98,7 @@ Partial Class Form1
         ' 
         dashboard.Location = New Point(45, 95)
         dashboard.Name = "dashboard"
-        dashboard.Size = New Size(470, 314)
+        dashboard.Size = New Size(511, 329)
         dashboard.TabIndex = 5
         dashboard.TabStop = False
         ' 
@@ -179,7 +179,7 @@ Partial Class Form1
         jaune.Name = "jaune"
         jaune.Size = New Size(156, 29)
         jaune.TabIndex = 13
-        jaune.Value = New Decimal(New Integer() {30, 0, 0, 0})
+        jaune.Value = New Decimal(New Integer() {50, 0, 0, 0})
         ' 
         ' rouge
         ' 
@@ -187,7 +187,7 @@ Partial Class Form1
         rouge.Name = "rouge"
         rouge.Size = New Size(156, 29)
         rouge.TabIndex = 14
-        rouge.Value = New Decimal(New Integer() {10, 0, 0, 0})
+        rouge.Value = New Decimal(New Integer() {25, 0, 0, 0})
         ' 
         ' validerPourcentage
         ' 

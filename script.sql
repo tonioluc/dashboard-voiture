@@ -24,7 +24,7 @@ create table enregistrement(
 
 INSERT INTO voiture (nom, acceleration, deceleration, vitesse, capaciteReservoir, consommationMax, vitesseMax)
 VALUES
-('Alea 1', 50, 20, 0, 1, 0.05, 250.0);
+('Alea 1', 50, 20, 0, 2, 0.2, 250.0);
 -- Acc�l�ration en km/h/s
 
 -- select vitesse from voiture where id=? union (select coalesce(max(vitesseInitiale),0) vitesse from enregistrement where idVoiture = ?) order by vitesse limit 1;
